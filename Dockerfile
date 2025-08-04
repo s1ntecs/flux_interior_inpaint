@@ -40,6 +40,11 @@ RUN pip3 install --upgrade pip && \
 # 4) Copy rest of the code
 COPY . .
 
+ARG HF_TOKEN
+ENV HF_TOKEN=${HF_TOKEN}
+
+RUN huggingface-cli login --token $HF_TOKEN --add-to-git-credential
+
 # 5) Prepare dirs & checkpoints
 RUN mkdir -p loras checkpoints && \
     python3 download_checkpoints.py
